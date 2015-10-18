@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <import resource="classpath:spring/spring-db.xml"/>
+
+    <!--组件扫描-->
+    <context:annotation-config/>
+    <context:component-scan base-package="ief.service"/>
+
+    <!-- 处理在类级别上的@RequestMapping注解-->
+    <!--<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">-->
+        <!--<property name="interceptors">-->
+             <!--多个拦截器,顺序执行-->
+            <!--<list>-->
+                <!--<ref bean="commonInterceptor"/>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!--
+             如果不定义mappingURL，则默认拦截所有对Controller的请求 ;
+             可以使用正则表达式对url进行匹配，从而更细粒度的进行拦截(.*/entryOrJsonController\.do\?action=reg.*);
+    -->
+    <!--<bean id="commonInterceptor" class="ief.interceptor.CommonInterceptor">-->
+        <!--<property name="mappingURL" value=".*/entryOrJsonController\.do\?action=reg.*"/>-->
+    <!--</bean>-->
+
+</beans>

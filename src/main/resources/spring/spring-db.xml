@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd"
+        xmlns:context="http://www.springframework.org/schema/context"
+        >
+
+    <!--数据库配置文件-->
+    <context:property-placeholder
+            location="classpath:runtimecfg/dbconfig.properties,classpath:runtimecfg/datasource.properties"/>
+
+
+    <!--定义使用C3P0连接池的数据源-->
+    <!--suppress SpringFacetInspection-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <!-- 指定连接数据库的JDBC驱动 -->
+        <property name="driverClass">
+            <value>${jdbc.driverClassName}</value>
+        </property>
+        <!-- 连接数据库所用的URL -->
+        <property name="jdbcUrl">
+            <value>${jdbc.url}</value>
+        </property>
+        <!-- 连接数据库的用户名 -->
+        <property name="user">
+            <value>${jdbc.username}</value>
+        </property>
+        <!-- 连接数据库的密码 -->
+        <property name="password">
+            <value>${jdbc.password}</value>
+        </property>
+        <!-- 设置数据库连接池的最大连接数 -->
+        <property name="maxPoolSize">
+            <value>${datasource.maxPoolSize}</value>
+        </property>
+        <!-- 设置数据库连接池的最小连接数 -->
+        <property name="minPoolSize">
+            <value>${datasource.minPoolSize}</value>
+        </property>
+        <!-- 设置数据库连接池的初始化连接数 -->
+        <property name="initialPoolSize">
+            <value>${datasource.initialPoolSize}</value>
+        </property>
+        <!-- 设置数据库连接池的连接的最大空闲时间,单位为秒 -->
+        <property name="maxIdleTime">
+            <value>${datasource.maxIdleTime}</value>
+        </property>
+    </bean>
+
+
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="typeAliasesPackage" value="ief.domain"/>
+    </bean>
+
+    <mybatis:scan base-package="ief.persistence" />
+
+</beans>
