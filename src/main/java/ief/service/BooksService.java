@@ -13,12 +13,15 @@ import ief.persistence.BooksWantedMapper;
 import ief.persistence.UploadBooksMapper;
 import ief.persistence.UserInfoMapper;
 import ief.utils.BaiduAddressUtil;
+import ief.utils.HttpClientUtil;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -58,9 +61,18 @@ public class BooksService {
         uploadBooksDO.setBookName(addBookParam.getBookName());
         uploadBooksDO.setBookCoverImg(addBookParam.getBookCoverImg());
         uploadBooksDO.setCategory(addBookParam.getCategory());
-
-        String locate = BaiduAddressUtil.getCityAndDistrict(baseParam.getLon(), baseParam.getLat());
-        userInfoMapper.updateLocate(locate, baseParam.getUserId());
+        uploadBooksDO.setLat(new BigDecimal(baseParam.getLat()));
+        uploadBooksDO.setLon(new BigDecimal(baseParam.getLon()));
+        String text=null;
+        try {
+			text = HttpClientUtil.executeGet(BaiduAddressUtil.BAIDU_GET_DIS +  baseParam.getLat() + "," + baseParam.getLon());
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+        if(text!=null){
+        	uploadBooksDO.setDistrict(BaiduAddressUtil.getDistrict(text));
+        	uploadBooksDO.setDistrict(BaiduAddressUtil.getStreet(text));
+        }
         int rtl = uploadBooksMapper.addBook(uploadBooksDO);
         booksOwnedMapper.addOwnedBook(baseParam.getUserId(), uploadBooksDO.getId());
         return rtl;

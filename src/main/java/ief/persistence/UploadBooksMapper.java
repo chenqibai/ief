@@ -20,8 +20,9 @@ public interface UploadBooksMapper {
             "on b.userId = u.id order by b.wantedNum, b.createdTime desc")
     public List<ListBooksResult> getBooksWanted(@Param("ListBooksParam") ListBooksParam listBooksParam );
 
-    @Insert("insert into upload_books(id, userId, comment, bookName, bookCoverImg, category) " +
-            "values (null, #{uploadBooksDO.userId}, #{uploadBooksDO.comment}, #{uploadBooksDO.bookName}, #{uploadBooksDO.bookCoverImg}, #{uploadBooksDO.category})")
+    @Insert("insert into upload_books(id, userId, comment, bookName, bookCoverImg, category,lon,lat,district,street) " +
+            "values (null, #{uploadBooksDO.userId}, #{uploadBooksDO.comment}, #{uploadBooksDO.bookName}, #{uploadBooksDO.bookCoverImg}, #{uploadBooksDO.category}"
+            + ", #{uploadBooksDO.lon}, #{uploadBooksDO.lat}, #{uploadBooksDO.district}, #{uploadBooksDO.street})")
     @Options(useGeneratedKeys = true, keyProperty = "uploadBooksDO.id", keyColumn ="id")
     public int addBook(@Param("uploadBooksDO") UploadBooksDO uploadBooksDO);
 

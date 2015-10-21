@@ -1,5 +1,6 @@
 package ief.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -16,8 +17,44 @@ public class UploadBooksDO {
     private Short category;
     private Date createdTime;
     private String bookCoverImg;
+    private BigDecimal lon;//经度
+    private BigDecimal lat;//纬度
+    private String district;
+    private String street;
 
-    public Long getId() {
+    public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public BigDecimal getLon() {
+		return lon;
+	}
+
+	public void setLon(BigDecimal lon) {
+		this.lon = lon;
+	}
+
+	public BigDecimal getLat() {
+		return lat;
+	}
+
+	public void setLat(BigDecimal lat) {
+		this.lat = lat;
+	}
+
+	public Long getId() {
         return id;
     }
 
