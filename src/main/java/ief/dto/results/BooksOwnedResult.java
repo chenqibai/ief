@@ -12,26 +12,13 @@ public class BooksOwnedResult {
     private String comment;
     private int wantedNum;
     private int categoryId;
-    private String categoryName;
-
 
     public int getCategoryId() {
         return categoryId;
     }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
-        this.categoryName = CategoryEnum.CATEGORY_MAP.get(categoryId);
     }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
     public Long getBookId() {
         return bookId;
     }
@@ -81,7 +68,6 @@ public class BooksOwnedResult {
                 ", comment='" + comment + '\'' +
                 ", wantedNum=" + wantedNum +
                 ", categoryId=" + categoryId +
-                ", categoryName='" + categoryName + '\'' +
                 '}';
     }
 }

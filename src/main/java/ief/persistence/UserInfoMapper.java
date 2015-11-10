@@ -1,16 +1,15 @@
 package ief.persistence;
 
-import ief.domain.UserInfoDO;
-import ief.dto.params.RegisterDetailUserParam;
-import ief.dto.params.RegisterUserParam;
-import ief.dto.params.UpdateUserInfoParam;
-import ief.dto.results.UserInfoResult;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
-import java.util.List;
+import ief.domain.UserInfoDO;
+import ief.dto.results.UserInfoResult;
 
 /**
  * Created by zhangdongsheng on 15/6/21.
@@ -18,39 +17,39 @@ import java.util.List;
 public interface UserInfoMapper {
     @Select("SELECT * FROM user_info")
     List<UserInfoDO> getUserInfo();
+    
+//    @Insert("update user_info set phone = #{userInfoDO.phone}, password = #{userInfoDO.password} " +
+//            "where id = #{userInfoDO.id}")
+//    public int updatePassword(@Param("userInfoDO")UserInfoDO userInfoDO);
 
-    @Select("SELECT count(*) FROM user_info where userName=#{username}")
-    Integer countUserInfoByName(@Param("userName")String username);
+    @Insert("update user_info set userName = #{registerDetailUserParam.userName}, birthday = #{registerDetailUserParam.birthday}, lunarBirthday = #{registerDetailUserParam.lunarBirthday}, " +
+            "birthdayType = #{registerDetailUserParam.birthdayType}, userHeadImg = #{registerDetailUserParam.userHeadImg} , constellation = #{registerDetailUserParam.constellation}, " +
+            "sex = #{registerDetailUserParam.sex},lon= #{registerDetailUserParam.lon},lat = #{registerDetailUserParam.lat},defaultPlace = #{registerDetailUserParam.defaultPlace}," +
+            "city = #{registerDetailUserParam.city},district= #{registerDetailUserParam.district},street = #{registerDetailUserParam.street}" +
+            "where userId = #{registerDetailUserParam.userId}")
+    public int addUserInfoDetail(@Param("registerDetailUserParam")UserInfoDO registerDetailUserParam);
 
-    @Select("SELECT count(*) FROM user_info where phone=#{phone}")
-    Integer countUserInfoByPhone(@Param("phone")String phone);
+    @Update("update user_info set username = #{userInfoDO.userName}, sex = #{userInfoDO.sex}, birthday = #{userInfoDO.birthday}, " +
+            "birthdayType = #{userInfoDO.birthdayType}, hometown = #{userInfoDO.hometown}, locate = #{userInfoDO.locate}, career = #{userInfoDO.career}, " +
+            " signature = #{userInfoDO.signature}, school = #{userInfoDO.school}, userHeadImg = #{userInfoDO.userHeadImg}"
+            + " ,lon= #{registerDetailUserParam.lon},lat = #{registerDetailUserParam.lat}, lunarBirthday = #{registerDetailUserParam.lunarBirthday},"
+            + " constellation = #{registerDetailUserParam.constellation},city = #{registerDetailUserParam.city},district= #{registerDetailUserParam.district},"
+            + "street = #{registerDetailUserParam.street},defaultPlace = #{registerDetailUserParam.defaultPlace} where userId = #{userInfoDO.userId}")
+    public int updateUserInfo(@Param("userInfoDO")UserInfoDO userInfoDO);
+    
+    @Update("update user_info set wantedNum =wantedNum+ #{wantedNum},ownedNum =ownedNum+ #{ownedNum} where userId = #{userId}")
+    public int markWanted(@Param("wantedNum") int wantedNum,@Param("ownedNum") int ownedNum,@Param("userId")long userId);
 
-    @Select("SELECT count(*) FROM user_info where id=#{id}")
-    Integer countUserInfoById(@Param("id")Long id);
+    @Insert("insert into user_info(userId, phone, password,registTime) " +
+            "values(null, #{registerUserParam.phone}, #{registerUserParam.password}, now())")
+    public int addUserInfo(@Param("registerUserParam")UserInfoDO registerUserParam);
 
-    @Insert("update user_info set userName = #{registerDetailUserParam.userName}, birthday = #{registerDetailUserParam.birthday}, " +
-            "birthdayType = #{registerDetailUserParam.birthdayType}, userHeadImg = #{registerDetailUserParam.userHeadImg} where" +
-            " id = #{registerDetailUserParam.userIdParam}")
-    public int addUserInfoDetail(@Param("registerDetailUserParam")RegisterDetailUserParam registerDetailUserParam);
+    @Select("SELECT * FROM user_info where phone=#{phone} limit 1")
+    UserInfoDO getUserInfoByPhoneAndPassword(@Param("phone")String phone);
 
-    @Insert("update user_info set userName = #{userInfoDO.userName}, sex = #{userInfoDO.sex}, birthday = #{userInfoDO.birthday}, " +
-            "birthdayType = #{userInfoDO.birthdayType}, hometown = #{userInfoDO.hometown}, locate = #{userInfoDO.locate}, school = #{userInfoDO.school}, " +
-            " userHeadImg = #{userInfoDO.userHeadImg} where id = #{userInfoDO.id}")
-    public int updateUserInfo(@Param("userInfoDO")UpdateUserInfoParam userInfoDO);
-
-    @Insert("update user_info set locate = #{locate} where id = #{id}")
-    public int updateLocate(@Param("locate")String locate, @Param("id")Long id);
-
-    @Insert("insert into user_info(id, phone, password) " +
-            "values(null, #{registerUserParam.phone}, #{registerUserParam.password})")
-    @Options(useGeneratedKeys = true, keyProperty = "registerUserParam.id", keyColumn ="id")
-    public int addUserInfo(@Param("registerUserParam")RegisterUserParam registerUserParam);
-
-
-    @Select("SELECT * FROM user_info where phone=#{phone}")
-    List<UserInfoDO> getUserInfoByPhoneAndPassword(@Param("phone")String phone);
-
-    @Select("SELECT userHeadImg, userName, locate, sex, birthday, birthdayType, hometown, school FROM user_info where id=#{userId}")
+    @Select("SELECT userName,sex,birthday,birthdayType,hometown,locate,career,school,signature,lon,lat,"
+    		+ "userHeadImg,lunarBirthday,constellation,city,district,street,defaultPlace,wantedNum,ownedNum"
+    		+ " FROM user_info where userId=#{userId}")
     public UserInfoResult getUserInfoByUserId(@Param("userId")Long userId);
 
     @Select("SELECT count(*) from user_info where phone=#{phone}")

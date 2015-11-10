@@ -1,5 +1,7 @@
 package ief.dto.results;
 
+import java.math.BigDecimal;
+
 import ief.enums.CategoryEnum;
 
 /**
@@ -9,44 +11,75 @@ public class ListBooksResult {
     private String bookName;
     private String comment;
     private String userName;
-    private String locate;
-    private Integer wantedNum;
     private String bookCoverImg;
     private String userHeadImg;
-    private String uploadBookId;
-    private String userID;
-    private int categoryId;
-    private String categoryName;
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-        this.categoryName = CategoryEnum.CATEGORY_MAP.get(categoryId);
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public String getUserID() {
-        return userID;
-    }
-
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
-
+    private String bookId;
+    private String userId;
+    private String district;
+    private String street;
+    private String constellation;
+    private String city;
+    private BigDecimal lon;//经度
+    private BigDecimal lat;//纬度
+    private Integer wantedNum;
+    
+	public Integer getWantedNum() {
+		return wantedNum;
+	}
+	public void setWantedNum(Integer wantedNum) {
+		this.wantedNum = wantedNum;
+	}
+	public BigDecimal getLon() {
+		return lon;
+	}
+	public void setLon(BigDecimal lon) {
+		this.lon = lon;
+	}
+	public BigDecimal getLat() {
+		return lat;
+	}
+	public void setLat(BigDecimal lat) {
+		this.lat = lat;
+	}
+	public String getBookId() {
+		return bookId;
+	}
+	public void setBookId(String bookId) {
+		this.bookId = bookId;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getDistrict() {
+		return district;
+	}
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+	public String getStreet() {
+		return street;
+	}
+	public void setStreet(String street) {
+		this.street = street;
+	}
+	public String getConstellation() {
+		return constellation;
+	}
+	public void setConstellation(String constellation) {
+		this.constellation = constellation;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
     public void setBookName(String bookName) {
         this.bookName = bookName;
     }
-
     public void setComment(String comment) {
         this.comment = comment;
     }
@@ -54,11 +87,6 @@ public class ListBooksResult {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
-    public void setLocate(String locate) {
-        this.locate = locate;
-    }
-
     public String getBookName() {
         return bookName;
     }
@@ -66,23 +94,9 @@ public class ListBooksResult {
     public String getComment() {
         return comment;
     }
-
     public String getUserName() {
         return userName;
     }
-
-    public String getLocate() {
-        return locate;
-    }
-
-    public Integer getWantedNum() {
-        return wantedNum;
-    }
-
-    public void setWantedNum(Integer wantedNum) {
-        this.wantedNum = wantedNum;
-    }
-
     public String getBookCoverImg() {
         return bookCoverImg;
     }
@@ -98,27 +112,14 @@ public class ListBooksResult {
     public void setUserHeadImg(String userHeadImg) {
         this.userHeadImg = userHeadImg;
     }
-
-    public String getUploadBookId() {
-        return uploadBookId;
-    }
-
-    public void setUploadBookId(String uploadBookId) {
-        this.uploadBookId = uploadBookId;
-    }
-
     @Override
     public String toString() {
         return "ListBooksResult{" +
                 "bookName='" + bookName + '\'' +
                 ", comment='" + comment + '\'' +
                 ", userName='" + userName + '\'' +
-                ", locate='" + locate + '\'' +
-                ", wantedNum=" + wantedNum +
                 ", bookCoverImg='" + bookCoverImg + '\'' +
                 ", userHeadImg='" + userHeadImg + '\'' +
-                ", uploadBookId='" + uploadBookId + '\'' +
-                ", userID='" + userID + '\'' +
                 '}';
     }
 }

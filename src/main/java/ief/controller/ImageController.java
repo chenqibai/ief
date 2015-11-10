@@ -1,13 +1,16 @@
 package ief.controller;
 
-import com.alibaba.fastjson.JSON;
-import ief.constants.Config;
-import ief.enums.StatusEnum;
-import ief.dto.params.BaseParam;
-import ief.dto.results.BaseResult;
-import ief.utils.ControllerUtil;
-import ief.utils.HttpUtil;
-import ief.utils.ImgUtil;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -16,10 +19,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.util.ArrayList;
+import ief.constants.Config;
+import ief.dto.params.BaseParam;
+import ief.dto.results.BaseResult;
+import ief.enums.StatusEnum;
+import ief.utils.ControllerUtil;
+import ief.utils.HttpUtil;
+import ief.utils.ImgUtil;
+import ief.utils.JsonUtil;
 
 /**
  * Created by zhangdongsheng on 15/6/22.
@@ -77,15 +84,15 @@ public class ImageController {
                     ArrayList<String> list = new ArrayList<>(1);
                     list.add(endPath);
                     BaseResult baseResult = new BaseResult(StatusEnum.SUCCESS, list);
-                    logger.info(JSON.toJSONString(baseResult));
-                    ControllerUtil.responseWriter(httpServletResponse, JSON.toJSONString(baseResult));
+                    logger.info(JsonUtil.toString(baseResult));
+                    ControllerUtil.responseWriter(httpServletResponse, JsonUtil.toString(baseResult));
                 } catch (IllegalStateException e) {
                     logger.error(e.getMessage(), e);
                 } catch (IOException e) {
                     logger.error(e.getMessage(), e);
                 }
             }
-            ControllerUtil.responseWriter(httpServletResponse, JSON.toJSONString(new BaseResult(StatusEnum.FAILED, null)));
+            ControllerUtil.responseWriter(httpServletResponse, JsonUtil.toString(new BaseResult(StatusEnum.FAILED, null)));
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

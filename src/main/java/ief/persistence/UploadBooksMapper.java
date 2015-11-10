@@ -1,46 +1,59 @@
 package ief.persistence;
 
-import ief.domain.UploadBooksDO;
-import ief.dto.params.AddBookParam;
-import ief.dto.params.ListBooksParam;
-import ief.dto.params.UploadBookDetailParam;
-import ief.dto.results.ListBooksResult;
-import ief.dto.results.UploadBookDetailResult;
-import ief.dto.results.UserIdResult;
-import ief.model.BookAbstractDO;
-import org.apache.ibatis.annotations.*;
-
 import java.util.List;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.Update;
+
+import ief.domain.UploadBooksDO;
+import ief.domain.UserInfoDO;
+import ief.dto.params.ListBooksParam;
+import ief.dto.results.BookDetailResult;
+import ief.dto.results.BooksOwnedResult;
+import ief.dto.results.ListBooksResult;
+import ief.utils.SqlProvider;
 
 /**
  * Created by zhangdongsheng on 15/6/22.
  */
 public interface UploadBooksMapper {
-    @Select("select b.id as uploadBookId, b.bookCoverImg, u.userHeadImg, b.bookName as bookName, b.comment as comment, u.userName as userName, u.id as userID, u.locate as locate, b.wantedNum as wantedNum, b.category as categoryId from upload_books b inner join user_info u " +
-            "on b.userId = u.id order by b.wantedNum, b.createdTime desc")
-    public List<ListBooksResult> getBooksWanted(@Param("ListBooksParam") ListBooksParam listBooksParam );
 
-    @Insert("insert into upload_books(id, userId, comment, bookName, bookCoverImg, category,lon,lat,district,street) " +
-            "values (null, #{uploadBooksDO.userId}, #{uploadBooksDO.comment}, #{uploadBooksDO.bookName}, #{uploadBooksDO.bookCoverImg}, #{uploadBooksDO.category}"
-            + ", #{uploadBooksDO.lon}, #{uploadBooksDO.lat}, #{uploadBooksDO.district}, #{uploadBooksDO.street})")
-    @Options(useGeneratedKeys = true, keyProperty = "uploadBooksDO.id", keyColumn ="id")
+//    @Select("select bookName,bookId,userId,onLoan,comment,createdTime,wantedNum,bookCoverImg,category,district,street,userHeadImg,userName,lon,lat from upload_books" +
+//            " where city=#{listBooksParam.city} and bookId<#{listBooksParam.lastId} order by bookId desc limit #{listBooksParam.pageSize}")
+	@SelectProvider(type = SqlProvider.class, method = "getBooksByPara")
+    public List<ListBooksResult> getBooksByPara( ListBooksParam listBooksParam );
+    
+    @Select("select bookName,bookId,userId,onLoan,comment,createdTime,wantedNum,bookCoverImg,category,"
+    		+ "district,street,userHeadImg,userName from upload_books where userId=#{userId}")
+    public List<BooksOwnedResult> getBooksByUserId(@Param("userId") long userId );
+    
+    @Insert("insert into upload_books(userId, comment, bookName, bookCoverImg, category,lon,lat,district,street,city,defaultPlace,createdTime,sex,constellation,userHeadImg,) " +
+            "values (#{uploadBooksDO.userId}, #{uploadBooksDO.comment}, #{uploadBooksDO.bookName}, #{uploadBooksDO.bookCoverImg}, #{uploadBooksDO.category}"
+            + ", #{uploadBooksDO.lon}, #{uploadBooksDO.lat}, #{uploadBooksDO.district}, #{uploadBooksDO.street}, #{uploadBooksDO.city}, #{uploadBooksDO.defaultPlace}"
+            + ", #{uploadBooksDO.createdTime}, #{uploadBooksDO.sex}, #{uploadBooksDO.constellation}, #{uploadBooksDO.userHeadImg}, #{uploadBooksDO.userName})")
+    @Options(useGeneratedKeys = true, keyProperty = "uploadBooksDO.bookId", keyColumn ="bookId")
     public int addBook(@Param("uploadBooksDO") UploadBooksDO uploadBooksDO);
 
-    @Update("update upload_books set userId = #{uploadBooksDO.userId}, comment = #{uploadBooksDO.comment}, bookName = #{uploadBooksDO.bookName}, bookCoverImg = #{uploadBooksDO.bookCoverImg}, category = #{uploadBooksDO.category}, bookCoverImg=#{uploadBooksDO.bookCoverImg} where id=#{bookId}")
+    @Update("update upload_books set comment = #{uploadBooksDO.comment}, bookCoverImg = #{uploadBooksDO.bookCoverImg}, category = #{uploadBooksDO.category} where bookId=#{bookId}")
     public int editBook(@Param("uploadBooksDO") UploadBooksDO uploadBooksDO, @Param("bookId") Long bookId);
 
+    @Update("update upload_books set wantedNum = wantedNum+#{num} where bookId=#{bookId}")
+    public int markWanted(@Param("num") int num, @Param("bookId") Long bookId);
+    
+    @Update("update upload_books set userName = #{userInfoDO.userName}, userHeadImg = #{uploadBooksDO.userHeadImg}, sex = #{uploadBooksDO.sex},constellation=#{uploadBooksDO.constellation} where userId=#{userId}")
+    public int udateUserInfo(@Param("userInfoDO") UserInfoDO userInfoDO, @Param("userId") Long userId);
 
-    @Select("select b.userId as userId, b.bookCoverImg, u.userHeadImg, b.bookName as bookName, b.comment as comment, u.userName as userName, u.locate as locate, u.ownedNum as ownedNum, b.wantedNum as wantedNum,b.category as categoryId from upload_books b inner join user_info u " +
-            "on b.id = #{uploadBookDetailParam.uploadBookId} and b.userId = u.id")
-    public UploadBookDetailResult getUploadBookDetail(@Param("uploadBookDetailParam") UploadBookDetailParam uploadBookDetailParam);
+    @Select(" select ub.bookName,ub.bookId,ub.userId,ub.onLoan,ub.comment,ub.createdTime,ub.wantedNum,ub.bookCoverImg,"
+    		+ "ub.category,ub.district,ub.street,ub.constellation,ub.sex,ub.city,ub.defaultPlace,ub.userHeadImg,"
+    		+ "ub.userName,ui.ownedNum from upload_books ub,user_info ui where bookId=#{bookId} and ub.userId=ui.userId")
+    public BookDetailResult getUploadBookDetail(@Param("bookId") String bookId);
 
-    @Select("select userId from upload_books where id = #{bookId}")
-    public UserIdResult getUserIdByBookId(@Param("bookId") Long bookId);
-
-
-    @Select("select bb.userId as userId, bb.comment, uu.userName, uu.userHeadImg from upload_books bb inner join user_info uu on bb.bookName = #{bookName} and bb.userId = uu.id and bb.userId != #{userId}")
-    public List<BookAbstractDO> listBookAbstracts(@Param("bookName")String bookName, @Param("userId")Long userId);
-
-
+    @Select("select bookName,bookId,userId,onLoan,comment,createdTime,wantedNum,bookCoverImg,category,district,street,userHeadImg,userName from upload_books" +
+            " where bookId<#{listBooksParam.lastId} bookName=#{uploadBooksDO.bookName} and bookId!=#{uploadBooksDO.bookId} order by bookId desc limit #{listBooksParam.pageSize}")
+    public List<ListBooksResult> getSameBooks(@Param("listBooksParam") ListBooksParam listBooksParam,@Param("uploadBooksDO") UploadBooksDO addBookParam);
 
 }

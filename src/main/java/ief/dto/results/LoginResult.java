@@ -12,28 +12,24 @@ public class LoginResult {
     private String userName;
     private Short sex;
     private Date birthday;
-    private short birthdayType;
+    private Short birthdayType;
     private String hometown;
     private String locate;
     private String sessionId;
     private String userHeadImg;
 
-    public Long getUserId() {
+    public Short getBirthdayType() {
+		return birthdayType;
+	}
+	public void setBirthdayType(Short birthdayType) {
+		this.birthdayType = birthdayType;
+	}
+	public Long getUserId() {
         return userId;
     }
-
     public void setUserId(Long userId) {
         this.userId = userId;
     }
-
-    public short getBirthdayType() {
-        return birthdayType;
-    }
-
-    public void setBirthdayType(short birthdayType) {
-        this.birthdayType = birthdayType;
-    }
-
     public void setWanted(Integer wanted) {
         this.wanted = wanted;
     }

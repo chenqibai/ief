@@ -1,13 +1,8 @@
 package ief.controller;
 
-import com.alibaba.fastjson.JSON;
-import ief.dto.params.BaseParam;
-import ief.dto.results.BaseResult;
-import ief.dto.results.CodeResult;
-import ief.enums.StatusEnum;
-import ief.service.VerifyService;
-import ief.utils.ControllerUtil;
-import ief.utils.HttpUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import ief.dto.params.BaseParam;
+import ief.dto.results.BaseResult;
+import ief.enums.StatusEnum;
+import ief.service.VerifyService;
+import ief.utils.ControllerUtil;
+import ief.utils.HttpUtil;
+import ief.utils.JsonUtil;
 
 /**
  * Created by zhangdongsheng on 15/7/21.
@@ -50,8 +50,6 @@ public class VerifyController {
             baseResult = new BaseResult(StatusEnum.FAILED);
         }
 
-        ControllerUtil.responseWriter(httpServletResponse, JSON.toJSONString(baseResult));
+        ControllerUtil.responseWriter(httpServletResponse, JsonUtil.toString(baseResult));
     }
-
-
 }

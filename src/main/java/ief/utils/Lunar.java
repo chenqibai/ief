@@ -32,7 +32,7 @@ public class Lunar {
 	// 当年是否有闰月
 	private static boolean isLeapYear;
 	// 阳历日期计算起点
-	private final static String START_DATE = "19000130";
+	private final static String START_DATE = "1900-01-30";
 	
 	
 	/**
@@ -141,16 +141,16 @@ public class Lunar {
 	
 	/**
 	 * 阴历转换为阳历
-	 * @param lunarDate 阴历日期,格式YYYYMMDD
+	 * @param lunarDate 阴历日期,格式YYYY-MM-DD
 	 * @param leapMonthFlag 是否为闰月
-	 * @return 阳历日期,格式：YYYYMMDD
+	 * @return 阳历日期,格式：YYYY-MM-DD
 	 * @throws Exception 
 	 * @author liu 2015-1-5
 	 */
 	public static String lunarToSolar(String lunarDate, boolean leapMonthFlag) throws Exception{
 		int lunarYear = Integer.parseInt(lunarDate.substring(0, 4));
-		int lunarMonth = Integer.parseInt(lunarDate.substring(4, 6));
-		int lunarDay = Integer.parseInt(lunarDate.substring(6, 8));
+		int lunarMonth = Integer.parseInt(lunarDate.substring(5, 7));
+		int lunarDay = Integer.parseInt(lunarDate.substring(8, 10));
 		
 		checkLunarDate(lunarYear, lunarMonth, lunarDay, leapMonthFlag);
 		
@@ -204,7 +204,7 @@ public class Lunar {
 			}
 		}
 		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat formatter = new SimpleDateFormat(format);
 		Date myDate = null;
 		myDate = formatter.parse(START_DATE);
 		Calendar c = Calendar.getInstance();
@@ -214,7 +214,7 @@ public class Lunar {
 
 		return formatter.format(myDate);
 	}
-	
+	public static String format="yyyy-MM-dd";
 	/**
 	 * 阳历日期转换为阴历日期
 	 * @param solarDate 阳历日期,格式YYYYMMDD
@@ -228,9 +228,8 @@ public class Lunar {
 		int lunarYear;
         int lunarMonth; //农历月份
         int lunarDay; //农历当月第几天
-        boolean leapMonthFlag =false;
         
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat formatter = new SimpleDateFormat(format);
 		Date myDate = null;
 		Date startDate = null;
 		try {
@@ -264,7 +263,6 @@ public class Lunar {
 			if(i==leapMonth+1 && isLeapYear){
 				temp = getLeapMonthDays(lunarYear);
 				isLeapYear = false;
-				leapMonthFlag = true;
 				i--;
 			}else{
 				temp = getMonthDays(lunarYear, i);
@@ -279,19 +277,20 @@ public class Lunar {
         lunarMonth = i;
         lunarDay = offset;
 
-		return "阴历："+lunarYear+"年"+(leapMonthFlag&(lunarMonth==leapMonth)?"闰":"")+lunarMonth+"月"+lunarDay+"日";
+//		return "阴历："+lunarYear+"年"+(leapMonthFlag&(lunarMonth==leapMonth)?"闰":"")+lunarMonth+"月"+lunarDay+"日";
+        return lunarYear+(lunarMonth<10?"-0"+lunarMonth:"-"+lunarMonth)+(lunarDay<10?"-0"+lunarDay:"-"+lunarDay);
 	}
 	public static void main(String[] args) throws Exception {
-		System.out.println(Lunar.lunarToSolar("19891212", false));
-		System.out.println(Lunar.lunarToSolar("19841021", true));
+		System.out.println(Lunar.lunarToSolar("1989-12-12", false));
+		System.out.println(Lunar.lunarToSolar("1984-10-21", false));
 		System.out.println("************");
-		System.out.println(Lunar.solarToLunar("19000923"));
-		System.out.println(Lunar.solarToLunar("19000924"));
-		System.out.println(Lunar.solarToLunar("19001022"));
-		System.out.println(Lunar.solarToLunar("19001023"));
+		System.out.println(Lunar.solarToLunar("1900-09-23"));
+		System.out.println(Lunar.solarToLunar("1900-09-24"));
+		System.out.println(Lunar.solarToLunar("1900-10-22"));
+		System.out.println(Lunar.solarToLunar("1900-10-23"));
 		
-		System.out.println(Lunar.solarToLunar("19900630"));
-		System.out.println(Lunar.solarToLunar("19841213"));
-		System.out.println(Lunar.solarToLunar("19910119"));
+		System.out.println(Lunar.solarToLunar("1990-01-08"));
+		System.out.println(Lunar.solarToLunar("1984-12-13"));
+		System.out.println(Lunar.solarToLunar("1991-01-19"));
 	}
 }

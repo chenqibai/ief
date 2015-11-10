@@ -1,23 +1,21 @@
 package ief.dto.results;
 
-import com.alibaba.fastjson.JSON;
-import ief.domain.CategoryDO;
-import ief.enums.CategoryEnum;
-import ief.enums.StatusEnum;
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
+import ief.domain.CategoryDO;
+import ief.enums.StatusEnum;
+import ief.utils.JsonUtil;
 
 /**
  * Created by zhangdongsheng on 15/6/22.
  * 返回给客户端结果
  */
-public class BaseResult<T> {
+public class BaseResult {
     private int status;
     private String message;
-    private T data;
-    public BaseResult(StatusEnum status, T data) {
+    private Object data;
+    public BaseResult(StatusEnum status, Object data) {
         this.status = status.getCode();
         this.message = status.getMessage();
         this.data = data;
@@ -53,11 +51,11 @@ public class BaseResult<T> {
     }
 
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
@@ -84,7 +82,7 @@ public class BaseResult<T> {
 
 
         BaseResult baseResult = new BaseResult(StatusEnum.SUCCESS, list);
-        System.out.println(JSON.toJSONString(baseResult));
+        System.out.println(JsonUtil.toString(baseResult));
 
 
         BaseResult baseResult1 = new BaseResult(StatusEnum.SUCCESS, list);
