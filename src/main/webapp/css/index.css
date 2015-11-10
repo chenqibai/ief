@@ -1,0 +1,153 @@
+.header {
+	position: fixed;
+	z-index: 3;
+	bottom: 0;
+	background: rgba(0,0,0,0.85);
+}
+
+
+.logo {
+	float: left;
+	margin-top: 2%;
+	margin-left: 4%;
+	background: url(../images/logo.png);
+	background-size: 100%;
+	clear: both;
+
+}
+.title {
+	
+	margin-top: 2%;
+	margin-left: 1%;
+	float: left;
+	clear: right;
+	color: #fff;
+
+
+}
+.detail {
+	
+	color: #fff;
+	float: left;
+	font-weight: 100;
+	clear: left;
+	margin-left: 16%;
+	margin-top: -4%;
+}
+.download {
+	color:#ff9000; 
+	position: absolute;
+	right: 3.733%;
+	top: 32%;
+}
+
+.content {
+	background: #f0f0f0;
+	width: 100%;
+	height: 100%;
+}
+.main {
+	width:100%;
+	margin-top: 3%;
+	z-index: 2;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-o-border-radius: 10px;
+}
+.main-img {
+	background: url(../images/big.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+	margin: 0 auto;
+	margin-top: 3.82775%;
+
+}
+.h1 {
+	
+	color: #333333;
+	float: left;
+	font-weight: 100;	
+	clear: both;
+}
+.main-text {
+	width: 94%;
+	height: auto;
+	position: absolute;
+	float: left;
+	left: 50%;
+	margin-left: -47%;
+	margin-top: 3.748%;
+}
+.num {
+	
+	color: #888;
+	font-weight: 100;
+	float: left;
+	margin-top: 0.6%;
+	clear: left;
+
+}
+.place-detail {
+	
+	color: #888;
+	font-weight: 100;
+	float: right;
+	margin-top: 0.6%;
+
+}
+.place {
+	
+	color: #888;
+	font-weight: 100;
+	float: right;
+	margin-top: 0.6%;
+	margin-right: 0.6%;
+	
+}
+.main-detail {
+	margin: 0 auto;
+	margin-top: 5%;
+	color: #333333;
+	line-height: 1.5;
+	height: 10em;
+}
+.icon {
+	float: left;
+}
+.detail-text {
+	float: left;
+	width: 86%;
+	color: #333;
+	margin-left: 4.266%;
+	line-height: 1.5em;
+	margin-top: 50px;
+}
+.detail-text p {
+	font-weight: 100;
+}
+
+.book_logo {
+	background: url(../images/book.jpg);
+	background-repeat: no-repeat;
+	background-size: 100%;
+	margin: 0 auto;
+	margin-top: 10.207%;
+}
+.recommend {
+	width: 100%;
+	text-align: center;
+	margin-top: 3.8277%;
+}
+.recommend span:nth-child(1) {
+	color: #249ced
+}
+.recommend span:nth-child(2) {
+	color: #303030
+}
+.name {
+	width: 100%;
+	text-align: center;
+	margin-top: 3.1897%;
+}

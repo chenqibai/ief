@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,height=device-height initial-scale=1, maximum-scale=1, minimum-scale=1,user-scalable=0" />
+    <title>岛上书店</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/demo.css">
+    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+    // var dpr = window.devicePixelRatio
+    // console.log(dpr)
+     //var rem1= document.documentElement.clientWidth 
+    
+    var dpr, rem, scale;
+    var docEl = document.documentElement;
+    var fontEl = document.createElement('style');
+    var metaEl = document.querySelector('meta[name="viewport"]');
+    dpr = window.devicePixelRatio || 1;
+    console.log(docEl.clientWidth)
+    rem = docEl.clientWidth * dpr / 10;
+    scale = 1 / dpr;
+   
+    
+    metaEl.setAttribute('content',  'width='  +  dpr  *  docEl.clientWidth  +',height=' + dpr  *  docEl.clientHeight +  ',initial-scale='  +  scale  +  ',maximum-scale='  +  scale  +  ',minimum-scale='  +  scale  +  ',user-scalable=no');
+    
+    
+    docEl.setAttribute('data-dpr',  dpr);
+    docEl.setAttribute('data-rem', rem);
+
+    docEl.firstElementChild.appendChild(fontEl); 
+
+    fontEl.innerHTML  =  'html{font-size:'  +  rem  +  'px!important;}';  
+
+    // window.rem2px  =   function(v)  {  
+    //     v  =  parseFloat(v);  
+    //     return  v  *  rem; 
+    // };
+    // window.px2rem = function(v)  {     
+    //     v  =  parseFloat(v);     
+    //     return  v  /  rem; 
+    // }; 
+  
+    </script>
+    
+</head>
+
+<body>   
+  
+          
+    <div class="book_logo"></div>
+    <p class="recommend">
+        <span>郑晓池</span>
+        <span>极力推荐</span>
+    </p>
+    <p class="name">《岛上书店》</p>
+   
+       
+            <div class="main-img"></div> 
+           
+            <div class="main-detail">
+                <p>每个人都有缺陷，就像被上帝咬过的苹果，有的人缺陷比较大，正是因为上帝特别喜欢他的芬芳。</p>             
+            </div>
+      
+  
+    <div class="header">
+        <div class="logo"></div>
+        <p class="title">IEF</p>
+        <p class="detail">中国第一所移动大学</p>
+        <p class="download">立即下载</p>                
+    </div>
+
+</body>
+<script type="text/javascript" src="js/index.js"></script>
+</html>

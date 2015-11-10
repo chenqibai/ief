@@ -1,0 +1,20 @@
+{
+	"data": {
+		"bookCoverImg": "book/7020151025215315.jpg",
+		"bookName": "你若安好 便是晴天",
+		"categoryId": 0,
+		"city": "北京市",
+		"comment": "你若安好 便是晴天",
+		"constellation": "双子座",
+		"defaultPlace": "唯咖啡龙旗店",
+		"district": "昌平区",
+		"sex": "-1",
+		"street": "文华路",
+		"userHeadImg": "pers/7020151025205031.jpg",
+		"userId": "70",
+		"wantedNum": 0,
+		"username": "郑晓池"
+	},
+	"message": "成功",
+	"status": 0
+}

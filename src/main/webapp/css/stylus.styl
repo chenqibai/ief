@@ -1,0 +1,95 @@
+
+
+px2rem(a, b)
+  {a} : (b / 75 * 1rem)
+
+linecolor = #ccc
+
+px2px(name, b)
+	{name}:round(b/2)*1px
+
+	[data-dpr="1.25"] & {
+		{name}:round(b*1.25/2)*1px
+	}
+
+	[data-dpr="2"] & {
+		{name}:b*1px
+	}
+
+	// for mx3
+	[data-dpr="2.5"] & {
+		{name}:round(b*2.5/2)*1px
+	}
+	// for 小米note
+	[data-dpr="2.75"] & {
+		{name}:round(b*2.75/2)*1px
+	}
+
+	[data-dpr="3"] & {
+		{name}:round(b/2*3)*1px
+	}
+
+	[data-dpr="3.5"] & {
+		{name}:round(b*3.5/2)*1px
+	}
+
+	// 三星 note4
+	[data-dpr="4"] & {
+		{name}:b* 2px
+	}
+
+
+.header
+  px2rem(width, 750)
+  px2rem(height, 108)
+  border-top:1px solid linecolor
+  border-bottom:1px solid linecolor
+
+.logo 
+	px2rem(width, 80)
+	px2rem(height, 80)
+
+.icon
+	px2rem(width, 64)
+	px2rem(height, 132)
+
+
+
+.book_logo
+	px2rem(width, 128)
+	px2rem(height, 128)
+
+.main-img {
+	px2rem(width, 652)
+	px2rem(height, 608)
+}
+.main-detail {
+	px2rem(width, 652)
+}
+.main 
+	px2rem(height, 988)
+
+.title 
+ 	px2px(font-size, 36px)
+
+.detail 
+ 	px2px(font-size, 24px)
+
+.download 
+ 	px2px(font-size, 28px)
+
+.h1
+ 	px2px(font-size, 40px)
+
+.num,.place-detail,.place 
+ 	px2px(font-size, 20px)
+
+.main-detail
+ 	px2px(font-size, 30px)
+ 	
+.recommend {
+	px2px(font-size,26px)
+}
+.name {
+	px2px(font-size,44px)
+}
