@@ -32,9 +32,9 @@ public interface UserInfoMapper {
     @Update("update user_info set username = #{userInfoDO.userName}, sex = #{userInfoDO.sex}, birthday = #{userInfoDO.birthday}, " +
             "birthdayType = #{userInfoDO.birthdayType}, hometown = #{userInfoDO.hometown}, locate = #{userInfoDO.locate}, career = #{userInfoDO.career}, " +
             " signature = #{userInfoDO.signature}, school = #{userInfoDO.school}, userHeadImg = #{userInfoDO.userHeadImg}"
-            + " ,lon= #{registerDetailUserParam.lon},lat = #{registerDetailUserParam.lat}, lunarBirthday = #{registerDetailUserParam.lunarBirthday},"
-            + " constellation = #{registerDetailUserParam.constellation},city = #{registerDetailUserParam.city},district= #{registerDetailUserParam.district},"
-            + "street = #{registerDetailUserParam.street},defaultPlace = #{registerDetailUserParam.defaultPlace} where userId = #{userInfoDO.userId}")
+            + " ,lon= #{userInfoDO.lon},lat = #{userInfoDO.lat}, lunarBirthday = #{userInfoDO.lunarBirthday},"
+            + " constellation = #{userInfoDO.constellation},city = #{userInfoDO.city},district= #{userInfoDO.district},"
+            + "street = #{userInfoDO.street},defaultPlace = #{userInfoDO.defaultPlace} where userId = #{userInfoDO.userId}")
     public int updateUserInfo(@Param("userInfoDO")UserInfoDO userInfoDO);
     
     @Update("update user_info set wantedNum =wantedNum+ #{wantedNum},ownedNum =ownedNum+ #{ownedNum} where userId = #{userId}")
@@ -42,6 +42,7 @@ public interface UserInfoMapper {
 
     @Insert("insert into user_info(userId, phone, password,registTime) " +
             "values(null, #{registerUserParam.phone}, #{registerUserParam.password}, now())")
+    @Options(useGeneratedKeys = true, keyProperty = "registerUserParam.userId", keyColumn ="userId")
     public int addUserInfo(@Param("registerUserParam")UserInfoDO registerUserParam);
 
     @Select("SELECT * FROM user_info where phone=#{phone} limit 1")

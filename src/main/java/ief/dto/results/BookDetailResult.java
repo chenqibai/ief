@@ -9,7 +9,7 @@ public class BookDetailResult {
     private String userHeadImg;
     private String bookId;
     private String userId;
-    private int categoryId;
+    private int category;
     private String categoryName;
     private String district;
     private String street;
@@ -17,7 +17,6 @@ public class BookDetailResult {
     private String sex;
     private String city;
     private String defaultPlace;
-    private String username;
     private Integer ownedNum;
     
 	public Integer getOwnedNum() {
@@ -38,6 +37,7 @@ public class BookDetailResult {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+	
 	public String getUserName() {
 		return userName;
 	}
@@ -74,11 +74,11 @@ public class BookDetailResult {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public int getCategoryId() {
-		return categoryId;
+	public int getCategory() {
+		return category;
 	}
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
+	public void setCategory(int category) {
+		this.category = category;
 	}
 	public String getCategoryName() {
 		return categoryName;
@@ -122,11 +122,4 @@ public class BookDetailResult {
 	public void setDefaultPlace(String defaultPlace) {
 		this.defaultPlace = defaultPlace;
 	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-    
 }

@@ -154,27 +154,31 @@ public class BooksController {
         HttpUtil.logRequest(logger, "mark_wanted", httpServletRequest);
         BaseResult baseResult = null;
         try {
-            int rtl = booksWantedService.markerWanted(baseParam, wantedPara);
-            switch (rtl){
-            	case 1:
-            		baseResult = new BaseResult(StatusEnum.SUCCESS, new CodeResult(0, "添加成功"));
-            		break;
-            	case -1:
-            		baseResult = new BaseResult(StatusEnum.SUCCESS, new CodeResult(1, "添加想读已经存在"));
-            		break;
-            	case 2:
-            		baseResult = new BaseResult(StatusEnum.SUCCESS, new CodeResult(0, "删除成功"));
-            		break;
-            	case -2:
-            		baseResult = new BaseResult(StatusEnum.SUCCESS, new CodeResult(1, "删除失败"));
-            		break;
-            	case -3:
-            		baseResult = new BaseResult(StatusEnum.PARA_ERR);
-            		break;
-            	default:
-            		baseResult = new BaseResult(StatusEnum.PARA_ERR,new CodeResult(1, "未知错误"));
-            		break;
-            }
+        	if(wantedPara.getWantedFlag()==null||(wantedPara.getWantedFlag()!=0&&wantedPara.getWantedFlag()!=1))
+        		baseResult = new BaseResult(StatusEnum.PARA_ERR);
+        	else{
+        		int rtl = booksWantedService.markerWanted(baseParam, wantedPara);
+                switch (rtl){
+                	case 1:
+                		baseResult = new BaseResult(StatusEnum.SUCCESS, new CodeResult(0, "添加成功"));
+                		break;
+                	case -1:
+                		baseResult = new BaseResult(StatusEnum.SUCCESS, new CodeResult(1, "添加想读已经存在"));
+                		break;
+                	case 2:
+                		baseResult = new BaseResult(StatusEnum.SUCCESS, new CodeResult(0, "删除成功"));
+                		break;
+                	case -2:
+                		baseResult = new BaseResult(StatusEnum.SUCCESS, new CodeResult(1, "删除失败"));
+                		break;
+                	case -3:
+                		baseResult = new BaseResult(StatusEnum.PARA_ERR);
+                		break;
+                	default:
+                		baseResult = new BaseResult(StatusEnum.PARA_ERR,new CodeResult(1, "未知错误"));
+                		break;
+                }
+        	}
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             baseResult = new BaseResult(StatusEnum.FAILED);

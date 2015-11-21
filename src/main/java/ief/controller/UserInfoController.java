@@ -70,8 +70,6 @@ public class UserInfoController {
                 baseResult = new BaseResult(1, "该手机号已经注册");
             } else if (rtl == 1) {
                 baseResult = new BaseResult(StatusEnum.SUCCESS, loginResult);
-            }else{
-            	baseResult = new BaseResult(1, "注册失败");
             }
         } catch (Exception e) {
             baseResult = new BaseResult(StatusEnum.SERVER_ERR);

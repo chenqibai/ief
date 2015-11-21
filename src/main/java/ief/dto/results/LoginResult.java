@@ -10,7 +10,7 @@ public class LoginResult {
     private Integer wanted;
     private Integer owned;
     private String userName;
-    private Short sex;
+    private Integer sex;
     private Date birthday;
     private Short birthdayType;
     private String hometown;
@@ -41,11 +41,6 @@ public class LoginResult {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
-    public void setSex(Short sex) {
-        this.sex = sex;
-    }
-
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
@@ -74,16 +69,16 @@ public class LoginResult {
     public String getUserName() {
         return userName;
     }
-
-    public Short getSex() {
-        return sex;
-    }
-
     public Date getBirthday() {
         return birthday;
     }
-
-    public String getHometown() {
+    public Integer getSex() {
+		return sex;
+	}
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+	public String getHometown() {
         return hometown;
     }
 

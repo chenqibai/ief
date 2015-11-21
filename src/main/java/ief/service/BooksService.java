@@ -1,6 +1,8 @@
 package ief.service;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,9 +26,11 @@ import ief.dto.results.BooksOwnedResult;
 import ief.dto.results.BooksWantedResult;
 import ief.dto.results.ListBooksResult;
 import ief.dto.results.UserInfoResult;
+import ief.enums.CategoryEnum;
 import ief.persistence.BooksWantedMapper;
 import ief.persistence.UploadBooksMapper;
 import ief.persistence.UserInfoMapper;
+import ief.utils.DateUtil;
 import ief.utils.DistanceUtil;
 import ief.utils.HttpUtil;
 import ief.utils.JsonUtil;
@@ -98,7 +102,7 @@ public class BooksService {
         uploadBooksDO.setUserHeadImg(userInfoResult.getUserHeadImg());
         uploadBooksDO.setSex(userInfoResult.getSex());
         uploadBooksDO.setConstellation(userInfoResult.getConstellation());
-        uploadBooksDO.setUsername(userInfoResult.getUserName());
+        uploadBooksDO.setUserName(userInfoResult.getUserName());
         if(addBookParam.getDefaultPlace()==null){//没有上传是默认地点
         	uploadBooksDO.setLon(userInfoResult.getLon());
         	uploadBooksDO.setLat(userInfoResult.getLat());
@@ -123,13 +127,18 @@ public class BooksService {
         return rtl;
     }
 
-    public int editBook(BaseParam baseParam, UploadBooksDO addBookParam, Long bookId){
-        UploadBooksDO uploadBooksDO = new UploadBooksDO();
-        uploadBooksDO.setComment(addBookParam.getComment());
-//        uploadBooksDO.setBookName(addBookParam.getBookName());
-        uploadBooksDO.setBookCoverImg(addBookParam.getBookCoverImg());
-        uploadBooksDO.setCategory(addBookParam.getCategory());
-        int rtl = uploadBooksMapper.editBook(uploadBooksDO, bookId);
+    public int editBook(BaseParam baseParam, UploadBooksDO addBookParam, Long bookId) throws ClientProtocolException, IOException{
+        if(addBookParam.getLocationFlag()!=null&&addBookParam.getLocationFlag()==1){//修改默认咖啡厅
+			//默认咖啡厅
+			String text = HttpUtil.get(HttpUtil.BAIDU_GET_DIS +  baseParam.getLat() + "," + baseParam.getLon());
+			Map<String,Object> locationMap=JsonUtil.toBean(text, Map.class);
+			Map<String,Object> addressComponent=(Map<String,Object>)((Map<String,Object>)locationMap.get("result")).get("addressComponent");
+			//城市，区，街道
+			addBookParam.setDistrict((String)addressComponent.get("district"));
+			addBookParam.setStreet((String)addressComponent.get("street"));
+			addBookParam.setCity((String)addressComponent.get("city"));
+		}
+        int rtl = uploadBooksMapper.editBook(addBookParam, bookId);
         return rtl;
     }
 
@@ -139,8 +148,9 @@ public class BooksService {
     }
 
 
-    public List<BooksWantedResult> getBooksWantedByUserId(Long userId,ListBooksParam listBooksParam){
-    	listBooksParam.setPageIndex((listBooksParam.getPageIndex()-1)*listBooksParam.getPageSize());
+    public List<BooksWantedResult> getBooksWantedByUserId(Long userId,ListBooksParam listBooksParam) throws ParseException{
+    	if(listBooksParam.getCreatedTime()==null)
+    		listBooksParam.setCreatedTime(DateUtil.getyyyyMMddDate("2115-01-01"));
         System.out.println(listBooksParam.getPageIndex()+"\t"+listBooksParam.getPageSize()+"\t"+userId);
     	List<BooksWantedResult> booksWantedResult = booksWantedMapper.getBooksWantedByUserId(userId,listBooksParam);
         return booksWantedResult;
@@ -148,6 +158,14 @@ public class BooksService {
 
     public List<BooksOwnedResult> getBooksOwnedByUserId(Long userId){
         List<BooksOwnedResult> booksOwnedResultList = uploadBooksMapper.getBooksByUserId(userId);
+        for(BooksOwnedResult one:booksOwnedResultList){
+        	CategoryEnum curEnum=CategoryEnum.getCategoryById(one.getCategory());
+        	String categoryName=null;
+        	if(curEnum!=null){
+        		categoryName= curEnum.getName();
+        	}
+        	one.setCategoryName(categoryName);
+        }
         return booksOwnedResultList;
     }
 
@@ -158,8 +176,10 @@ public class BooksService {
         else
         	return 1;
     }
-    public List<ListBooksResult> getSameBooks(ListBooksParam listBooksParam,UploadBooksDO addBookParam){
-    	listBooksParam.setPageIndex((listBooksParam.getPageIndex()-1)*listBooksParam.getPageSize());
+    public List<ListBooksResult> getSameBooks(ListBooksParam listBooksParam,UploadBooksDO addBookParam) throws UnsupportedEncodingException{
+    	if(listBooksParam.getLastId()==null)
+        	listBooksParam.setLastId(""+Long.MAX_VALUE);
+//    	addBookParam.setBookName(new String(addBookParam.getBookName().getBytes("iso8859-1"),"utf-8"));
     	List<ListBooksResult> result = uploadBooksMapper.getSameBooks(listBooksParam,addBookParam);
         return result;
     }

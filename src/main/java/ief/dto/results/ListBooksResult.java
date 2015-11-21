@@ -16,6 +16,7 @@ public class ListBooksResult {
     private String bookId;
     private String userId;
     private String district;
+    private Short category;
     private String street;
     private String constellation;
     private String city;
@@ -23,6 +24,12 @@ public class ListBooksResult {
     private BigDecimal lat;//纬度
     private Integer wantedNum;
     
+	public Short getCategory() {
+		return category;
+	}
+	public void setCategory(Short category) {
+		this.category = category;
+	}
 	public Integer getWantedNum() {
 		return wantedNum;
 	}

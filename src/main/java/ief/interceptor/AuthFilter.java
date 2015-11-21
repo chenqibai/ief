@@ -23,8 +23,8 @@ public class AuthFilter implements Filter{
 	public void init(FilterConfig filterConfig) throws ServletException {
 		
 	}
-	private static String[] NOAUTHURI={"/app/list_books","/app/get_book_detail","/app/get_same_books"
-			,"/hello","/app/register","/app/login"};
+	private static String[] NOAUTHURI={"/ief/app/list_books","/ief/app/get_book_detail","/ief/app/get_same_books"
+			,"/ief/hello","/ief/app/register","/ief/app/login"};
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
@@ -32,21 +32,30 @@ public class AuthFilter implements Filter{
 		HttpServletResponse httpServletResponse=(HttpServletResponse)response;  
 		String uri=httpRequest.getRequestURI();
 		if(isNoAuth(uri)){//不做权限认证
-			
+			chain.doFilter(request, response);
 		}else{//认证
 			String sessionId=httpRequest.getParameter("sessionId");
-			String decode=SecretUtil.decrypt(sessionId, SecretUtil.AUTHPASSWORD);
-			int offset=decode.lastIndexOf('|');
-			String deviceId=decode.substring(0, offset);
-			String userId=decode.substring(offset+1,decode.length() );
-			if(deviceId.equals(httpRequest.getParameter("deviceId"))&&userId.equals(httpRequest.getParameter("userId")))
-				chain.doFilter(request, response);
-			else{
+			sessionId="TxD18i9uw+32eI8md18XymTfuinz5V8FsUgunjNo3HPsUYTIAHc5ITtv7vOLqSjO";
+			System.out.println(sessionId);
+			System.out.println(httpRequest.getParameter("deviceId"));
+			if(sessionId!=null){
+				String decode=SecretUtil.decrypt(sessionId, SecretUtil.AUTHPASSWORD);
+				int offset=decode.lastIndexOf('|');
+				String deviceId=decode.substring(0, offset);
+				String userId=decode.substring(offset+1,decode.length() );
+				if(deviceId.equals(httpRequest.getParameter("deviceId"))&&userId.equals(httpRequest.getParameter("userId")))
+					chain.doFilter(request, response);
+				else{
+					BaseResult baseResult =new BaseResult(StatusEnum.AUTH_ERR);
+					ControllerUtil.responseWriter(httpServletResponse, JsonUtil.toString(baseResult));
+					return;
+				}
+			}else{
 				BaseResult baseResult =new BaseResult(StatusEnum.AUTH_ERR);
 				ControllerUtil.responseWriter(httpServletResponse, JsonUtil.toString(baseResult));
+				return;
 			}
 		}
-		chain.doFilter(request, response);
 	}
 	/**
 	 * 判断是否需要认证

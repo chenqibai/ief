@@ -61,12 +61,11 @@ public class UserService {
 		registerUserParam.setPassword(SecretUtil.encrypt(registerUserParam.getPassword(),SecretUtil.PASSWORD));
 		try{
 			int rtl = userInfoMapper.addUserInfo(registerUserParam);
-			if (rtl == 1) {
-//				loginResult.setSessionId(SessionUtil.newSessionId(registerUserParam.getUserId()));
+			if (rtl== 1) {
+				loginResult.setSessionId(SecretUtil.encrypt(baseParam.getDeviceId()+"|"+registerUserParam.getUserId(), SecretUtil.AUTHPASSWORD));
 				loginResult.setUserId(registerUserParam.getUserId());
-				loginResult.setWanted(0);
 			}
-			return rtl;
+			return 1;
 		}catch(DuplicateKeyException e){
 			return -1;
 		}
@@ -76,17 +75,19 @@ public class UserService {
 	public int registerDetail(BaseParam baseParam, UserInfoDO registerDetailUserParam,
 			RegisterUserResult registerUserResult) throws Exception {
 		registerDetailUserParam.setUserId(baseParam.getUserId());
-		if (registerDetailUserParam.getBirthdayType() == 1) {// 阴历
-			registerDetailUserParam.setLunarBirthday(registerDetailUserParam.getBirthday());
-			registerDetailUserParam.setBirthday(Lunar.lunarToSolar(registerDetailUserParam.getFormatBirthday(), false));
-		} else {// 阳历
-			String lunarString = Lunar.solarToLunar(registerDetailUserParam.getFormatBirthday());
-			registerDetailUserParam.setLunarBirthday(DateUtil.getyyyyMMddDate(lunarString));
+		if(registerDetailUserParam.getBirthday()!=null){
+			if (registerDetailUserParam.getBirthdayType() == 1) {// 阴历
+				registerDetailUserParam.setLunarBirthday(registerDetailUserParam.getBirthday());
+				registerDetailUserParam.setBirthday(Lunar.lunarToSolar(registerDetailUserParam.getFormatBirthday(), false));
+			} else {// 阳历
+				String lunarString = Lunar.solarToLunar(registerDetailUserParam.getFormatBirthday());
+				registerDetailUserParam.setLunarBirthday(DateUtil.getyyyyMMddDate(lunarString));
+			}
+			// 星座
+			int month = registerDetailUserParam.getBirthday().getMonth() + 1;
+			int day = registerDetailUserParam.getBirthday().getDate();
+			registerDetailUserParam.setConstellation(Constellation.getConstellation(month, day));
 		}
-		// 星座
-		int month = registerDetailUserParam.getBirthday().getMonth() + 1;
-		int day = registerDetailUserParam.getBirthday().getDate();
-		registerDetailUserParam.setConstellation(Constellation.getConstellation(month, day));
 		//默认咖啡厅
 		if(registerDetailUserParam.getDefaultPlace()!=null){
 			String text = HttpUtil.get(HttpUtil.BAIDU_GET_DIS +  baseParam.getLat() + "," + baseParam.getLon());
@@ -101,7 +102,6 @@ public class UserService {
 		}
 		int result = userInfoMapper.addUserInfoDetail(registerDetailUserParam);
 		uploadBooksMapper.udateUserInfo(registerDetailUserParam, registerDetailUserParam.getUserId());
-		registerUserResult.setSessionId(SessionUtil.getSessionId(baseParam.getUserId()));
 		return result;
 	}
 

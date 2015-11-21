@@ -24,14 +24,21 @@ public class UploadBooksDO {
     private String defaultPlace;
     private String constellation;
     private String userHeadImg;
-    private int sex;
-    private String username;
-
-    public String getUsername() {
-		return username;
+    private Integer sex;
+    private String userName;
+    private Integer locationFlag;//是否修改咖啡厅
+    
+	public Integer getLocationFlag() {
+		return locationFlag;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setLocationFlag(Integer locationFlag) {
+		this.locationFlag = locationFlag;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getConstellation() {
 		return constellation;
@@ -45,10 +52,10 @@ public class UploadBooksDO {
 	public void setUserHeadImg(String userHeadImg) {
 		this.userHeadImg = userHeadImg;
 	}
-	public int getSex() {
+	public Integer getSex() {
 		return sex;
 	}
-	public void setSex(int sex) {
+	public void setSex(Integer sex) {
 		this.sex = sex;
 	}
 	public String getDefaultPlace() {

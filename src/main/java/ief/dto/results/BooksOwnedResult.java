@@ -11,14 +11,28 @@ public class BooksOwnedResult {
     private String bookName;
     private String comment;
     private int wantedNum;
-    private int categoryId;
+    private int category;
+    private String categoryName;
+    private String defaultPlace;
 
-    public int getCategoryId() {
-        return categoryId;
-    }
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
+	public int getCategory() {
+		return category;
+	}
+	public void setCategory(int category) {
+		this.category = category;
+	}
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	public String getDefaultPlace() {
+		return defaultPlace;
+	}
+	public void setDefaultPlace(String defaultPlace) {
+		this.defaultPlace = defaultPlace;
+	}
     public Long getBookId() {
         return bookId;
     }
@@ -67,7 +81,6 @@ public class BooksOwnedResult {
                 ", bookName='" + bookName + '\'' +
                 ", comment='" + comment + '\'' +
                 ", wantedNum=" + wantedNum +
-                ", categoryId=" + categoryId +
                 '}';
     }
 }

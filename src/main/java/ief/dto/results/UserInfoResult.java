@@ -13,7 +13,7 @@ public class UserInfoResult {
     private String userHeadImg;
     private String userName;
     private String locate;
-    private Short sex;
+    private Integer sex;
     private Date birthday;
     private Date lunarBirthday;
     private short birthdayType;
@@ -110,10 +110,6 @@ public class UserInfoResult {
     public String getLocate() {
         return locate;
     }
-    public Short getSex() {
-        return sex;
-    }
-
     public Date getBirthday() {
         return birthday;
     }
@@ -152,12 +148,13 @@ public class UserInfoResult {
     public void setLocate(String locate) {
         this.locate = locate;
     }
-
-    public void setSex(Short sex) {
-        this.sex = sex;
-    }
-
-    public void setBirthday(Date birthday) {
+    public Integer getSex() {
+		return sex;
+	}
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+	public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
     public void setBirthdayType(short birthdayType) {

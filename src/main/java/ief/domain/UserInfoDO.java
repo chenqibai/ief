@@ -12,7 +12,7 @@ import ief.utils.DateUtil;
 public class UserInfoDO {
     private Long userId;
     private String userName;
-    private Short sex;
+    private Integer sex=-1;
     private String birthday;
     private Short birthdayType;
     private String hometown;
@@ -185,23 +185,18 @@ public class UserInfoDO {
     public String getUserHeadImg() {
         return userHeadImg;
     }
-
-    public void setUserHeadImg(String userHeadImg) {
+    public Integer getSex() {
+		return sex;
+	}
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+	public void setUserHeadImg(String userHeadImg) {
         this.userHeadImg = userHeadImg;
     }
-
-    public Short getSex() {
-        return sex;
-    }
-
     public Short getBirthdayType() {
         return birthdayType;
     }
-
-    public void setSex(Short sex) {
-        this.sex = sex;
-    }
-
     public void setBirthdayType(Short birthdayType) {
         this.birthdayType = birthdayType;
     }

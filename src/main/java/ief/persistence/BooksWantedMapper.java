@@ -16,8 +16,8 @@ public interface BooksWantedMapper {
     @Select("select * from books_wanted")
     public List<BooksWantedDO> getBooksWanted();
 
-    @Select("select ub.bookId, ub.bookCoverImg, ub.bookName, ub.comment, ub.userHeadImg, ub.userName from books_wanted bw " +
-            ",upload_books ub where bw.userId = #{userId} and bw.bookId = ub.bookId order by bw.createdTime limit #{listBooksParam.pageIndex},#{listBooksParam.pageSize}")
+    @Select("select ub.bookId, ub.bookCoverImg, ub.bookName, ub.comment, ub.category, ub.userHeadImg, ub.userName,bw.createdTime from books_wanted bw " +
+            ",upload_books ub where bw.userId = #{userId} and bw.bookId = ub.bookId and bw.createdTime<#{listBooksParam.createdTime} order by bw.createdTime limit #{listBooksParam.pageSize}")
     public List<BooksWantedResult> getBooksWantedByUserId(@Param("userId")Long userId,@Param("listBooksParam") ListBooksParam listBooksParam);
 
     @Insert("insert into books_wanted( bookId, userId, createdTime) values ( #{uploadBookId}, #{userId}, now())")

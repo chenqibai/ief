@@ -1,5 +1,7 @@
 package ief.dto.params;
 
+import java.util.Date;
+
 /**
  * Created by zhangdongsheng on 15/6/22.
  */
@@ -8,8 +10,15 @@ public class ListBooksParam {
     private Integer pageSize=15;
     private String city;
     private String lastId;
+    private Date createdTime;
     
-    public String getLastId() {
+    public Date getCreatedTime() {
+		return createdTime;
+	}
+	public void setCreatedTime(Date createdTime) {
+		this.createdTime = createdTime;
+	}
+	public String getLastId() {
 		return lastId;
 	}
 	public void setLastId(String lastId) {
