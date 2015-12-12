@@ -97,12 +97,11 @@ public class SecretUtil {
 	}
 
 	public static void main(String[] args) {
-		long start1 = System.currentTimeMillis();
-		String result = SecretUtil.encrypt("512728E6-9BC9-4FCC-83B0-91F6785CA9DA|83", SecretUtil.AUTHPASSWORD);
-		long start2 = System.currentTimeMillis();
-		System.out.println(result);
-		System.out.println(SecretUtil.decrypt("TxD18i9uw+32eI8md18XymTfuinz5V8FsUgunjNo3HPsUYTIAHc5ITtv7vOLqSjO", SecretUtil.PASSWORD));
-		long start3 = System.currentTimeMillis();
-		System.out.println((start2 - start1) + "\t" + (start3 - start2));
+//		long start1 = System.currentTimeMillis();
+//		String result = SecretUtil.encrypt("512728E6-9BC9-4FCC-83B0-91F6785CA9DA|83", SecretUtil.AUTHPASSWORD);
+//		long start2 = System.currentTimeMillis();
+//		System.out.println(result);
+		System.out.println(SecretUtil.decrypt("9QJ8wpCwDiiUamLhYAVZaTk3/3IkyO+YgTY/QZztsEoko0wMAjD0HWnTgt8ka80c", SecretUtil.AUTHPASSWORD));
+
 	}
 }

@@ -35,9 +35,6 @@ public class AuthFilter implements Filter{
 			chain.doFilter(request, response);
 		}else{//认证
 			String sessionId=httpRequest.getParameter("sessionId");
-			sessionId="TxD18i9uw+32eI8md18XymTfuinz5V8FsUgunjNo3HPsUYTIAHc5ITtv7vOLqSjO";
-			System.out.println(sessionId);
-			System.out.println(httpRequest.getParameter("deviceId"));
 			if(sessionId!=null){
 				String decode=SecretUtil.decrypt(sessionId, SecretUtil.AUTHPASSWORD);
 				int offset=decode.lastIndexOf('|');
